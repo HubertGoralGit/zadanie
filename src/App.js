@@ -2,8 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import GlobalStyles from './theme/GlobalStyles';
 import Heading from './components/Heading/Heading';
+import Form from './components/Form/Form';
 import Logo from './components/Logo/Logo';
-import Button from './components/Button/Button';
 import ButtonIcon from './components/ButtonIcon/ButtonIcon';
 import MinusIcon from './assets/icons/minus.svg';
 import PlusIcon from './assets/icons/plus.svg';
@@ -23,9 +23,7 @@ function App() {
       <StyledWrapper className="App">
         <Logo />
         <Heading>Zadanie rekrutacyjne</Heading>
-        {/* <Button>People</Button> */}
-        <ButtonIcon icon={PlusIcon} plus />
-        <ButtonIcon icon={MinusIcon} minus />
+        <Form />
       </StyledWrapper>
     </>
   );
