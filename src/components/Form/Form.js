@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 import FormName from '../FormName/FormName';
 import ButtonIcon from '../ButtonIcon/ButtonIcon';
 import PlusIcon from '../../assets/icons/plus.svg';
-import List from '../List/List';
+import MinusIcon from '../../assets/icons/minus.svg';
+import CategoryWrapper from '../Category/Category';
 
 const StyledWrapper = styled.div`
   width: 600px;
@@ -40,17 +42,103 @@ const ListsWrapper = styled.div`
   margin: 50px 0;
 `;
 
-const Form = () => {
+const CategoryName = styled.p`
+  font-weight: bold;
+`;
+
+const CategoryItemWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &.child-wrapper {
+    border: 1px solid #c9cdd7;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    width: 80%;
+    padding: 5px 10px;
+    align-self: flex-end;
+    margin-bottom: 10px;
+    position: relative;
+
+    :last-of-type {
+      margin-bottom: 20px;
+    }
+
+    :before {
+      content: '';
+      position: absolute;
+      width: 30px;
+      height: 1px;
+      background-color: #c9cdd7;
+      left: -30px;
+      top: calc(50% - 1px);
+    }
+  }
+
+  .absolute-child-text {
+    position: absolute;
+    left: -55px;
+    top: calc(50% - 9px);
+    color: #c9cdd7;
+  }
+
+  button {
+    width: 25px;
+    height: 25px;
+  }
+`;
+
+const CategoryChildsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Form = ({ items }) => {
   return (
     <StyledWrapper>
       <FormName>People</FormName>
       <ListsWrapper>
-        <List></List>
-        <List></List>
+        {items.map((item, i) => {
+          return (
+            <CategoryWrapper key={i} className={item.hasChild && 'with-childs'}>
+              <CategoryItemWrapper
+                className={item.hasChild && 'category-main-name'}
+              >
+                <p className="absolute-text">And</p>
+                <CategoryName className="item-name">{item.name}</CategoryName>
+                <ButtonIcon minus icon={MinusIcon} />
+              </CategoryItemWrapper>
+              {item.hasChild && (
+                <CategoryChildsWrapper>
+                  {item.childs.map((child) => {
+                    return (
+                      <CategoryItemWrapper className="child-wrapper">
+                        <p className="absolute-child-text">Or</p>
+                        <CategoryName>{child.name}</CategoryName>
+                        <ButtonIcon
+                          minus
+                          icon={MinusIcon}
+                          className="childs-wrapper-button"
+                        />
+                      </CategoryItemWrapper>
+                    );
+                  })}
+                  <ButtonIcon plus icon={PlusIcon} />
+                </CategoryChildsWrapper>
+              )}
+            </CategoryWrapper>
+          );
+        })}
       </ListsWrapper>
       <StyledButtonIcon icon={PlusIcon} plus />
     </StyledWrapper>
   );
 };
 
-export default Form;
+const mapStateToProps = (state) => {
+  const { items } = state;
+  return { items };
+};
+
+export default connect(mapStateToProps)(Form);
