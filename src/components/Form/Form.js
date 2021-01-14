@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 import FormName from '../FormName/FormName';
@@ -6,6 +6,8 @@ import ButtonIcon from '../ButtonIcon/ButtonIcon';
 import PlusIcon from '../../assets/icons/plus.svg';
 import MinusIcon from '../../assets/icons/minus.svg';
 import CategoryWrapper from '../Category/Category';
+import Modal from '../Modal/Modal';
+import { removeItem as removeItemAction } from '../../actions/index';
 
 const StyledWrapper = styled.div`
   width: 600px;
@@ -94,45 +96,84 @@ const CategoryChildsWrapper = styled.div`
   flex-direction: column;
 `;
 
-const Form = ({ items }) => {
+const Form = ({ items, removeItem }) => {
+  const [showModal, setShowModal] = useState(false);
+  const [withChild, setWithChild] = useState(false);
+  const [activeId, setActiveId] = useState('');
+
+  const openModal = () => {
+    setShowModal((prev) => !prev);
+    setWithChild(false);
+  };
+
+  const openChildModal = () => {
+    setShowModal((prev) => !prev);
+    setWithChild(true);
+  };
+
   return (
-    <StyledWrapper>
-      <FormName>People</FormName>
-      <ListsWrapper>
-        {items.map((item, i) => {
-          return (
-            <CategoryWrapper key={i} className={item.hasChild && 'with-childs'}>
-              <CategoryItemWrapper
-                className={item.hasChild && 'category-main-name'}
+    <>
+      <Modal
+        // showModal={showModal}
+        showModal={true}
+        setShowModal={setShowModal}
+        // childModal={withChild}
+        childModal={true}
+        id={activeId}
+      />
+      {/* <StyledWrapper>
+        <FormName>People</FormName>
+        <ListsWrapper>
+          {items.map((item, i) => {
+            return (
+              <CategoryWrapper
+                key={i}
+                className={item.hasChild && 'with-childs'}
               >
+                <div className="category-wrapper-line"></div>
                 <p className="absolute-text">And</p>
-                <CategoryName className="item-name">{item.name}</CategoryName>
-                <ButtonIcon minus icon={MinusIcon} />
-              </CategoryItemWrapper>
-              {item.hasChild && (
-                <CategoryChildsWrapper>
-                  {item.childs.map((child) => {
-                    return (
-                      <CategoryItemWrapper className="child-wrapper">
-                        <p className="absolute-child-text">Or</p>
-                        <CategoryName>{child.name}</CategoryName>
-                        <ButtonIcon
-                          minus
-                          icon={MinusIcon}
-                          className="childs-wrapper-button"
-                        />
-                      </CategoryItemWrapper>
-                    );
-                  })}
-                  <ButtonIcon plus icon={PlusIcon} />
-                </CategoryChildsWrapper>
-              )}
-            </CategoryWrapper>
-          );
-        })}
-      </ListsWrapper>
-      <StyledButtonIcon icon={PlusIcon} plus />
-    </StyledWrapper>
+                <CategoryItemWrapper
+                  className={item.hasChild && 'category-main-name'}
+                >
+                  <CategoryName className="item-name">{item.name}</CategoryName>
+                  <ButtonIcon
+                    minus
+                    icon={MinusIcon}
+                    onClick={(e) => removeItem(item.id)}
+                  />
+                </CategoryItemWrapper>
+                {item.hasChild && (
+                  <CategoryChildsWrapper>
+                    {item.childs.map((child, id) => {
+                      return (
+                        <CategoryItemWrapper className="child-wrapper" key={id}>
+                          <p className="absolute-child-text">Or</p>
+                          <CategoryName>{child.name}</CategoryName>
+                          <ButtonIcon
+                            minus
+                            icon={MinusIcon}
+                            className="childs-wrapper-button"
+                          />
+                        </CategoryItemWrapper>
+                      );
+                    })}
+                    <ButtonIcon
+                      plus
+                      icon={PlusIcon}
+                      onClick={() => {
+                        openChildModal();
+                        setActiveId(item.id);
+                      }}
+                    />
+                  </CategoryChildsWrapper>
+                )}
+              </CategoryWrapper>
+            );
+          })}
+        </ListsWrapper>
+        <StyledButtonIcon icon={PlusIcon} plus onClick={openModal} />
+      </StyledWrapper> */}
+    </>
   );
 };
 
@@ -141,4 +182,8 @@ const mapStateToProps = (state) => {
   return { items };
 };
 
-export default connect(mapStateToProps)(Form);
+const mapDispatchToProps = (dispatch) => ({
+  removeItem: (id) => dispatch(removeItemAction(id)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

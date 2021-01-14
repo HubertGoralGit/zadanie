@@ -21,7 +21,7 @@ const CategoryWrapper = styled.div`
     border-bottom-left-radius: 4px;
   }
 
-  :after {
+  .category-wrapper-line {
     content: '';
     position: absolute;
     left: -100px;

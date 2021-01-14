@@ -1,46 +1,49 @@
+import { ADD_ITEM, ADD_CHILD_ITEM, REMOVE_ITEM } from '../constants/index';
+
 const initialState = {
-  hello: 'siema',
   items: [
     {
-      name: 'Age 40+',
-      hasChild: false,
+      id: 'asdfgh',
+      name: 'ja',
+      hasChild: true,
       childs: [],
     },
     {
-      name: 'Ethnicity',
+      id: 'dsadasd',
+      name: 'ja',
       hasChild: true,
-      childs: [
-        {
-          name: 'Hispanic',
-        },
-        {
-          name: 'Black',
-        },
-      ],
-    },
-    {
-      name: 'Income yearly 45k USD+',
-      hasChild: true,
-      childs: [
-        {
-          name: 'Hispanic',
-        },
-        {
-          name: 'Black',
-        },
-        {
-          name: 'Hispanic',
-        },
-        {
-          name: 'Black',
-        },
-      ],
+      childs: [],
     },
   ],
 };
 
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
+    case ADD_ITEM:
+      // console.log(initialState.map((item) => item));
+      initialState.items.map((item) => {
+        if (item.id === 'asdfgh') {
+          console.log('siema');
+        }
+      });
+      return {
+        ...state,
+        items: [...state.items, action.payload.item],
+      };
+    case ADD_CHILD_ITEM:
+      return {
+        ...state,
+        items: state.items.map((item) => {
+          if ((item.id = 'asdfgh')) {
+            item.name = action.payload.item;
+          }
+        }),
+      };
+    case REMOVE_ITEM:
+      return {
+        ...state,
+        items: [...state.items.filter((item) => item.id !== action.payload.id)],
+      };
     default:
       return state;
   }
