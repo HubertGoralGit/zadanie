@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import {
   addItem as addItemAction,
   addChildItem as addChildItemAction,
-  addChildItem,
 } from '../../actions/index';
 
 const ModalWrapper = styled.div`

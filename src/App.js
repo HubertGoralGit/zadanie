@@ -6,9 +6,6 @@ import GlobalStyles from './theme/GlobalStyles';
 import Heading from './components/Heading/Heading';
 import Form from './components/Form/Form';
 import Logo from './components/Logo/Logo';
-import ButtonIcon from './components/ButtonIcon/ButtonIcon';
-import MinusIcon from './assets/icons/minus.svg';
-import PlusIcon from './assets/icons/plus.svg';
 
 const StyledWrapper = styled.div`
   display: flex;
