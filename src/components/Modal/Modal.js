@@ -75,8 +75,11 @@ const Modal = ({
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    setShowModal((prev) => !prev);
-    addItem(form);
+    if (form.name !== '') {
+      setShowModal((prev) => !prev);
+      addItem(form);
+      form.name = '';
+    }
   };
 
   const handleChildFormSubmit = (e) => {
@@ -84,6 +87,7 @@ const Modal = ({
     if (form.name !== '') {
       setShowModal((prev) => !prev);
       addChildItem(id, form);
+      form.name = '';
     }
   };
 
