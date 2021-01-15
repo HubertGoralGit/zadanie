@@ -1,4 +1,4 @@
-import { ADD_ITEM, ADD_CHILD_ITEM, REMOVE_ITEM } from '../constants/index';
+import { ADD_ITEM, ADD_CHILD_ITEM, REMOVE_ITEM, REMOVE_CHILD_ITEM } from '../constants/index';
 
 export const addItem = (itemContent) => {
   const getId = () => `${Math.random().toString(36).substr(2, 9)}`;
@@ -35,6 +35,16 @@ export const removeItem = (id) => {
     type: REMOVE_ITEM,
     payload: {
       id,
+    },
+  };
+};
+
+export const removeChildItem = (id, itemId) => {
+  return {
+    type: REMOVE_CHILD_ITEM,
+    payload: {
+      id,
+      itemId,
     },
   };
 };
