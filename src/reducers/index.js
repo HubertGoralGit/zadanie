@@ -20,25 +20,15 @@ const initialState = {
 const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_ITEM:
-      // console.log(initialState.map((item) => item));
-      initialState.items.map((item) => {
-        if (item.id === 'asdfgh') {
-          console.log('siema');
-        }
-      });
       return {
         ...state,
         items: [...state.items, action.payload.item],
       };
-    case ADD_CHILD_ITEM:
+    case ADD_CHILD_ITEM://[...item.childs, action.payload.item]
       return {
         ...state,
-        items: state.items.map((item) => {
-          if ((item.id = 'asdfgh')) {
-            item.name = action.payload.item;
-          }
-        }),
-      };
+        items: state.items.map((item, i) => item.id === action.payload.itemId ? {...item, childs: item.childs.concat(action.payload.item)} : item)
+      }
     case REMOVE_ITEM:
       return {
         ...state,

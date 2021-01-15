@@ -82,9 +82,10 @@ const Modal = ({
 
   const handleChildFormSubmit = (e) => {
     e.preventDefault();
+    if (form.name !== '') {
     // setShowModal((prev) => !prev);
-    console.log(form);
-    addChildItem(form);
+    console.log(addChildItem('asdsa',form));
+    }
   };
 
   return (

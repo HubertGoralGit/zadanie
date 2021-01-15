@@ -15,15 +15,16 @@ export const addItem = (itemContent) => {
   };
 };
 
-export const addChildItem = (itemContent) => {
+export const addChildItem = (itemId, itemContent) => {
   const getId = () => `${Math.random().toString(36).substr(2, 9)}`;
 
   return {
     type: ADD_CHILD_ITEM,
     payload: {
+      itemId,
       item: {
-        id: getId(),
         ...itemContent,
+        id: getId(),
       },
     },
   };
