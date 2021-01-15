@@ -1,20 +1,12 @@
-import { ADD_ITEM, ADD_CHILD_ITEM, REMOVE_ITEM } from '../constants/index';
+import {
+  ADD_ITEM,
+  ADD_CHILD_ITEM,
+  REMOVE_ITEM,
+  REMOVE_CHILD_ITEM,
+} from '../constants/index';
 
 const initialState = {
-  items: [
-    {
-      id: 'asdfgh',
-      name: 'ja',
-      hasChild: true,
-      childs: [],
-    },
-    {
-      id: 'dsadasd',
-      name: 'ja',
-      hasChild: true,
-      childs: [],
-    },
-  ],
+  items: [],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -24,16 +16,36 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         items: [...state.items, action.payload.item],
       };
-    case ADD_CHILD_ITEM://[...item.childs, action.payload.item]
+    case ADD_CHILD_ITEM:
       return {
         ...state,
-        items: state.items.map((item, i) => item.id === action.payload.itemId ? {...item, childs: item.childs.concat(action.payload.item)} : item)
-      }
+        items: state.items.map((item) =>
+          item.id === action.payload.itemId
+            ? { ...item, childs: [...item.childs, action.payload.item] }
+            : item
+        ),
+      };
     case REMOVE_ITEM:
       return {
         ...state,
         items: [...state.items.filter((item) => item.id !== action.payload.id)],
       };
+    case REMOVE_CHILD_ITEM:
+      // return {
+      //   ...state,
+      //   items: state.items.map((item) => {
+      //     item.childs.filter((child) => child.id !== action.payload.id);
+      //   }),
+      //   // {...item, childs; [...item.childs.filter((child) => child.id !== action.payload.id)]},
+      // };
+      return state.items.map((item) => {
+        return {
+          ...item,
+          childs: [
+            ...item.childs.filter((child) => child.id !== action.payload.id),
+          ],
+        };
+      });
     default:
       return state;
   }

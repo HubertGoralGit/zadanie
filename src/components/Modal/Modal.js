@@ -83,8 +83,8 @@ const Modal = ({
   const handleChildFormSubmit = (e) => {
     e.preventDefault();
     if (form.name !== '') {
-    // setShowModal((prev) => !prev);
-    console.log(addChildItem('asdsa',form));
+      setShowModal((prev) => !prev);
+      addChildItem(id, form);
     }
   };
 
@@ -143,7 +143,8 @@ const Modal = ({
 
 const mapDispatchToProps = (dispatch) => ({
   addItem: (itemContent) => dispatch(addItemAction(itemContent)),
-  addChildItem: (itemContent) => dispatch(addChildItemAction(itemContent)),
+  addChildItem: (itemId, itemContent) =>
+    dispatch(addChildItemAction(itemId, itemContent)),
 });
 
 export default connect(null, mapDispatchToProps)(Modal);

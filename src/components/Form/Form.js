@@ -7,7 +7,10 @@ import PlusIcon from '../../assets/icons/plus.svg';
 import MinusIcon from '../../assets/icons/minus.svg';
 import CategoryWrapper from '../Category/Category';
 import Modal from '../Modal/Modal';
-import { removeItem as removeItemAction } from '../../actions/index';
+import {
+  removeItem as removeItemAction,
+  removeChildItem as removeChildItemAction,
+} from '../../actions/index';
 
 const StyledWrapper = styled.div`
   width: 600px;
@@ -96,7 +99,7 @@ const CategoryChildsWrapper = styled.div`
   flex-direction: column;
 `;
 
-const Form = ({ items, removeItem }) => {
+const Form = ({ items, removeItem, removeChildItem }) => {
   const [showModal, setShowModal] = useState(false);
   const [withChild, setWithChild] = useState(false);
   const [activeId, setActiveId] = useState('');
@@ -114,14 +117,12 @@ const Form = ({ items, removeItem }) => {
   return (
     <>
       <Modal
-        // showModal={showModal}
-        showModal={true}
+        showModal={showModal}
         setShowModal={setShowModal}
-        // childModal={withChild}
-        childModal={true}
+        childModal={withChild}
         id={activeId}
       />
-      {/* <StyledWrapper>
+      <StyledWrapper>
         <FormName>People</FormName>
         <ListsWrapper>
           {items.map((item, i) => {
@@ -153,6 +154,9 @@ const Form = ({ items, removeItem }) => {
                             minus
                             icon={MinusIcon}
                             className="childs-wrapper-button"
+                            onClick={(e) =>
+                              console.log(removeChildItem(child.id))
+                            }
                           />
                         </CategoryItemWrapper>
                       );
@@ -172,7 +176,7 @@ const Form = ({ items, removeItem }) => {
           })}
         </ListsWrapper>
         <StyledButtonIcon icon={PlusIcon} plus onClick={openModal} />
-      </StyledWrapper> */}
+      </StyledWrapper>
     </>
   );
 };
@@ -184,6 +188,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   removeItem: (id) => dispatch(removeItemAction(id)),
+  removeChildItem: (id) => dispatch(removeChildItemAction(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);
