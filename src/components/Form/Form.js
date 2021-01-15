@@ -154,9 +154,7 @@ const Form = ({ items, removeItem, removeChildItem }) => {
                             minus
                             icon={MinusIcon}
                             className="childs-wrapper-button"
-                            onClick={(e) =>
-                              console.log(removeChildItem(child.id))
-                            }
+                            onClick={() => removeChildItem(child.id, item.id)}
                           />
                         </CategoryItemWrapper>
                       );
@@ -188,7 +186,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   removeItem: (id) => dispatch(removeItemAction(id)),
-  removeChildItem: (id) => dispatch(removeChildItemAction(id)),
+  removeChildItem: (id, itemId) => dispatch(removeChildItemAction(id, itemId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

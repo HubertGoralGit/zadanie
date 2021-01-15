@@ -44,11 +44,12 @@ export const removeItem = (id) => {
   };
 };
 
-export const removeChildItem = (id) => {
+export const removeChildItem = (id, itemId) => {
   return {
     type: REMOVE_CHILD_ITEM,
     payload: {
       id,
+      itemId,
     },
   };
 };
